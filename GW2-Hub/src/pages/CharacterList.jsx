@@ -48,30 +48,34 @@ export default function CharacterList() {
       {/* favorite list */}
       <div>
         <h2 className="text-lg font-semibold">Favorite Characters</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="flex flex-wrap gap-6">
           {favoriteCharacters.map((charName) => (
-            <CharacterCard
-              key={charName}
-              name={charName}
-              apiKey={apiKey}
-              favorite={favorite}
-              toggleFavorite={toggleFavorite}
-            />
+            <div className="w-full sm:w-[calc(50%-12px)]">
+              <CharacterCard
+                key={charName}
+                name={charName}
+                apiKey={apiKey}
+                favorite={favorite}
+                toggleFavorite={toggleFavorite}
+              />
+            </div>
           ))}
         </div>
       </div>
       {/* all other characters list */}
       <div>
-        <h2 className="text-lg font-semibold">All Characters</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <h2 className="text-lg font-semibold">All Other Characters</h2>
+        <div className="flex flex-wrap gap-6">
           {nonFavoriteCharacters.map((charName) => (
-            <CharacterCard
-              key={charName}
-              name={charName}
-              apiKey={apiKey}
-              favorite={favorite}
-              toggleFavorite={toggleFavorite}
-            />
+            <div className="w-full sm:w-[calc(50%-12px)]">
+              <CharacterCard
+                key={charName}
+                name={charName}
+                apiKey={apiKey}
+                favorite={favorite}
+                toggleFavorite={toggleFavorite}
+              />
+            </div>
           ))}
         </div>
       </div>
