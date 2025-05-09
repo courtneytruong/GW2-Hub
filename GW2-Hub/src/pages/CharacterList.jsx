@@ -3,10 +3,38 @@ import { fetchCharacters } from "../utils/api";
 import CharacterCard from "../components/CharacterCard";
 import ApiKeyInput from "../components/ApiKeyInput";
 
-export default function Home() {
+export default function CharacterList() {
   const [characters, setCharacters] = useState([]);
+  const [favorite, setFavorite] = useState(() => {
+    const storedFavorites = localStorage.getItem("favorites");
+    return storedFavorites ? JSON.parse(storedFavorites) : [];
+  });
   const [apiKey, setApiKey] = useState(localStorage.getItem("gw2_api_key"));
 
+  //store favorited characters to local storage
+  useEffect(() => {
+    localStorage.setItem("favorites", JSON.stringify(favorite));
+  }, [favorite]);
+
+  //toggle favorite button
+  const toggleFavorite = (name) =>
+    setFavorite((prevFavorites) =>
+      prevFavorites.includes(name)
+        ? prevFavorites.filter((id) => id !== name)
+        : [...prevFavorites, name]
+    );
+
+  //filters out characters toggled as favorite
+  const favoriteCharacters = characters.filter((char) =>
+    favorite.includes(char)
+  );
+
+  //filters out characters not toggled as favorite
+  const nonFavoriteCharacters = characters.filter(
+    (char) => !favorite.includes(char)
+  );
+
+  //fetch character data if apikey is present. if no api key shows component to allow api key submission and sets api key on submit
   useEffect(() => {
     if (apiKey) {
       fetchCharacters(apiKey).then(setCharacters);
@@ -15,12 +43,41 @@ export default function Home() {
   if (!apiKey) return <ApiKeyInput onSubmit={setApiKey} />;
 
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Your GW2 Characters</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {characters.map((charName) => (
-          <CharacterCard key={charName} name={charName} apiKey={apiKey} />
-        ))}
+    <div className="p-4 mx-auto max-w-5xl min-h-screen">
+      <h1 className="text-2xl text-center font-bold mb-4">Characters</h1>
+      {/* favorite list */}
+      <div>
+        <h2 className="text-lg font-semibold">Favorite Characters</h2>
+        <div className="flex flex-wrap gap-6">
+          {favoriteCharacters.map((charName) => (
+            <div className="w-full sm:w-[calc(50%-12px)]">
+              <CharacterCard
+                key={charName}
+                name={charName}
+                apiKey={apiKey}
+                favorite={favorite}
+                toggleFavorite={toggleFavorite}
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+      {/* all other characters list */}
+      <div>
+        <h2 className="text-lg font-semibold">All Other Characters</h2>
+        <div className="flex flex-wrap gap-6">
+          {nonFavoriteCharacters.map((charName) => (
+            <div className="w-full sm:w-[calc(50%-12px)]">
+              <CharacterCard
+                key={charName}
+                name={charName}
+                apiKey={apiKey}
+                favorite={favorite}
+                toggleFavorite={toggleFavorite}
+              />
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
