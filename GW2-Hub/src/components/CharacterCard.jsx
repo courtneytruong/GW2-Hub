@@ -27,7 +27,7 @@ export default function CharacterCard({
   const isFavorite = favorite.includes(char.name);
 
   return (
-    <div className="bg-gradient-to-t from-black to-red-600 p-4 rounded shadow">
+    <div className="bg-gradient-to-t from-black to-red-800 p-4 rounded shadow text-neutral-300">
       <h2 className="flex justify-between items-center">
         <div className="flex items-center gap-4">
           {/* Card name header with favorites toggle and expand toggle */}
@@ -72,7 +72,7 @@ export default function CharacterCard({
 
       {/* details shown on expand */}
       {isExpanded && (
-        <div className="mt-4 text-black-base text-white animate-fade-in font-semibold">
+        <div className="mt-4 text-black-base animate-fade-in font-semibold">
           <p>Race: {char.race}</p>
           <p>Profession: {char.profession}</p>
           <p>Level: {char.level}</p>
