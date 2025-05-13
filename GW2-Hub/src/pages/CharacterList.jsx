@@ -15,6 +15,7 @@ export default function CharacterList() {
   const [filterProfession, setFilterProfession] = useState("");
   const [filterRace, setFilterRace] = useState("");
   const [filterCrafting, setFilterCrafting] = useState("");
+  const [loading, setLoading] = useState(false);
 
   //store favorited characters to local storage
   useEffect(() => {
@@ -32,16 +33,23 @@ export default function CharacterList() {
               fetchCharacterDetails(apiKey, name).catch(() => null)
             )
           )
-        ).filter((char) => char?.name && char?.race);
-        setCharacters(detailedChars); // Now each char includes race, profession, etc.
+        ).filter((char) => char?.name);
+        setCharacters(detailedChars);
       } catch (error) {
         console.error("Failed to fetch characters:", error);
+      } finally {
+        setLoading(false);
       }
     }
 
     loadAllCharacterDetails();
   }, [apiKey]);
   if (!apiKey) return <ApiKeyInput onSubmit={setApiKey} />;
+
+  //loading div shows if characters are loading
+  if (loading) {
+    return <div>Loading characters…</div>;
+  }
 
   //toggle favorite button
   const toggleFavorite = (name) =>
