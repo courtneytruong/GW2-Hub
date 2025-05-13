@@ -5,16 +5,24 @@ import ApiKeyInput from "../components/ApiKeyInput";
 import CharacterFilter from "../components/CharacterFilter";
 
 export default function CharacterList() {
+  //character data storage, stores data to an array
   const [characters, setCharacters] = useState([]);
+  //favorites filter state, pulls saved favorites from local storage
   const [favorite, setFavorite] = useState(() => {
     const storedFavorites = localStorage.getItem("favorites");
     return storedFavorites ? JSON.parse(storedFavorites) : [];
   });
+  //set api key, pull api key from local storage
   const [apiKey, setApiKey] = useState(localStorage.getItem("gw2_api_key"));
+
+  //search, filter states
   const [searchName, setSearchName] = useState("");
   const [filterProfession, setFilterProfession] = useState("");
   const [filterRace, setFilterRace] = useState("");
   const [filterCrafting, setFilterCrafting] = useState("");
+  const [sortOrder, setSortOrder] = useState("asc");
+
+  //loading state
   const [loading, setLoading] = useState(false);
 
   //store favorited characters to local storage
@@ -60,29 +68,38 @@ export default function CharacterList() {
     );
 
   //search by name and filter by profession, race, crafting profession logic
-  const filteredCharacters = characters.filter((char) => {
-    console.log(char);
-    const nameMatch =
-      !searchName?.trim() ||
-      char.name.toLowerCase().includes(searchName.trim().toLowerCase());
+  const filteredCharacters = characters
+    .filter((char) => {
+      console.log(char);
+      const nameMatch =
+        !searchName?.trim() ||
+        char.name.toLowerCase().includes(searchName.trim().toLowerCase());
 
-    const raceMatch =
-      !filterRace?.trim() ||
-      char.race.toLowerCase?.() === filterRace.trim().toLowerCase();
+      const raceMatch =
+        !filterRace?.trim() ||
+        char.race.toLowerCase?.() === filterRace.trim().toLowerCase();
 
-    const professionMatch =
-      !filterProfession ||
-      char.profession?.toLowerCase() === filterProfession.toLowerCase();
+      const professionMatch =
+        !filterProfession ||
+        char.profession?.toLowerCase() === filterProfession.toLowerCase();
 
-    const craftingMatch =
-      !filterCrafting ||
-      (Array.isArray(char.crafting) &&
-        char.crafting.some(
-          (c) => c.discipline?.toLowerCase() === filterCrafting.toLowerCase()
-        ));
+      const craftingMatch =
+        !filterCrafting ||
+        (Array.isArray(char.crafting) &&
+          char.crafting.some(
+            (c) => c.discipline?.toLowerCase() === filterCrafting.toLowerCase()
+          ));
 
-    return nameMatch && raceMatch && professionMatch && craftingMatch;
-  });
+      return nameMatch && raceMatch && professionMatch && craftingMatch;
+    })
+    .sort((a, b) => {
+      const nameA = a.name.toLowerCase();
+      const nameB = b.name.toLowerCase();
+
+      return sortOrder === "asc"
+        ? nameA.localeCompare(nameB)
+        : nameB.localeCompare(nameA);
+    });
 
   //filters out characters toggled as favorite
   const favoriteCharacters = filteredCharacters.filter((char) =>
@@ -106,10 +123,14 @@ export default function CharacterList() {
         setFilterProfession={setFilterProfession}
         filterCrafting={filterCrafting}
         setFilterCrafting={setFilterCrafting}
+        sortOrder={sortOrder}
+        setSortOrder={setSortOrder}
       />
       {/* favorite list */}
       <div>
-        <h2 className="text-lg font-semibold">Favorite Characters</h2>
+        <h2 className="text-neutral-300 text-lg font-semibold border-b-2 border-neutral-300 mb-4">
+          Favorite Characters
+        </h2>
         <div className="flex flex-wrap gap-6">
           {favoriteCharacters.map((char) => (
             <div className="w-full sm:w-[calc(50%-12px)]">
@@ -126,7 +147,9 @@ export default function CharacterList() {
       </div>
       {/* all other characters list */}
       <div>
-        <h2 className="text-lg font-semibold">All Other Characters</h2>
+        <h2 className="text-neutral-300 text-lg font-semibold border-b-2 border-neutral-300 mb-4 mt-4">
+          All Other Characters
+        </h2>
         <div className="flex flex-wrap gap-6">
           {nonFavoriteCharacters.map((char) => (
             <div className="w-full sm:w-[calc(50%-12px)]">

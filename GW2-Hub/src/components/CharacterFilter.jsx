@@ -1,3 +1,5 @@
+import SortButton from "../components/SortButton";
+
 export default function CharacterFilter({
   searchName,
   setSearchName,
@@ -7,15 +9,17 @@ export default function CharacterFilter({
   setFilterProfession,
   filterCrafting,
   setFilterCrafting,
+  setSortOrder,
+  sortOrder,
 }) {
   return (
-    <div className="mb-4 flex flex-wrap gap-4">
+    <div className="mb-4 p-2 flex justify-evenly flex-wrap gap-4 bg-gradient-to-t from-black to-red-800 rounded">
       <input
         type="text"
         placeholder="Search by name"
         value={searchName}
         onChange={(e) => setSearchName(e.target.value)}
-        className="border p-2 rounded "
+        className="border p-2 rounded w-64 "
       />
 
       <select
@@ -70,6 +74,12 @@ export default function CharacterFilter({
           <option value="Weaponsmith">Weaponsmith</option>
         </div>
       </select>
+      <SortButton
+        sortOrder={sortOrder}
+        onToggle={() =>
+          setSortOrder((prev) => (prev === "asc" ? "desc" : "asc"))
+        }
+      />
     </div>
   );
 }
