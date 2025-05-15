@@ -1,3 +1,6 @@
+import { GrFormPrevious } from "react-icons/gr";
+import { GrFormNext } from "react-icons/gr";
+
 export default function PaginationControls({
   currentPage,
   totalPages,
@@ -7,35 +10,37 @@ export default function PaginationControls({
 
   return (
     <div className="flex justify-center space-x-2 mt-4">
-      <button
-        onClick={() => onPageChange(currentPage - 1)}
-        disabled={currentPage === 1}
-        className="px-4 py-2 bg-blue-500 text-white rounded disabled:opacity-50"
-      >
-        ⬅️ Prev
-      </button>
-
+      <div className="flex justify-center">
+        <button
+          onClick={() => onPageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+          className="flex items-center gap-1 px-3 py-2 bg-black text-white rounded disabled:opacity-50"
+        >
+          <GrFormPrevious size={25} /> Prev
+        </button>
+      </div>
       {[...Array(totalPages)].map((_, idx) => (
         <button
           key={idx}
           onClick={() => onPageChange(idx + 1)}
           className={`px-4 py-2 rounded ${
             currentPage === idx + 1
-              ? "bg-blue-700 text-white"
-              : "bg-gray-200 text-gray-700"
+              ? "bg-red-900 text-white"
+              : "bg-black text-white"
           }`}
         >
           {idx + 1}
         </button>
       ))}
-
-      <button
-        onClick={() => onPageChange(currentPage + 1)}
-        disabled={currentPage === totalPages}
-        className="px-4 py-2 bg-blue-500 text-white rounded disabled:opacity-50"
-      >
-        Next ➡️
-      </button>
+      <div className="flex justify-center">
+        <button
+          onClick={() => onPageChange(currentPage + 1)}
+          disabled={currentPage === totalPages}
+          className="flex items-center gap-1 px-3 py-2 bg-black text-white rounded disabled:opacity-50"
+        >
+          Next <GrFormNext size={25} />
+        </button>
+      </div>
     </div>
   );
 }
