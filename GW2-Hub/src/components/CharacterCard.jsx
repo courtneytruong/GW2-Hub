@@ -1,24 +1,12 @@
-import { useEffect, useState } from "react";
-import { fetchCharacterDetails } from "../utils/api";
+import { useState } from "react";
+
 import { MdExpandMore } from "react-icons/md";
 import { MdExpandLess } from "react-icons/md";
 import { MdFavoriteBorder } from "react-icons/md";
 import { MdFavorite } from "react-icons/md";
 
-export default function CharacterCard({
-  name,
-  apiKey,
-  favorite,
-  toggleFavorite,
-}) {
-  const [char, setChar] = useState(null);
+export default function CharacterCard({ char, favorite, toggleFavorite }) {
   const [isExpanded, setIsExpanded] = useState(false);
-
-  //gets character details by name and then sets as a character. If no character data shows loading for each character that is loading.
-  useEffect(() => {
-    fetchCharacterDetails(apiKey, name).then(setChar);
-  }, [name, apiKey]);
-  if (!char) return <div>Loading {name}...</div>;
 
   //toggle expand to show more character details
   const toggleExpand = () => setIsExpanded((prev) => !prev);
