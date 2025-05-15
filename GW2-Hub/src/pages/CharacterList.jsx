@@ -3,6 +3,7 @@ import { fetchCharacters, fetchCharacterDetails } from "../utils/api";
 import CharacterCard from "../components/CharacterCard";
 import ApiKeyInput from "../components/ApiKeyInput";
 import CharacterFilter from "../components/CharacterFilter";
+import PaginationControls from "../components/PaginationControls";
 
 export default function CharacterList() {
   //character data storage, stores data to an array
@@ -21,6 +22,8 @@ export default function CharacterList() {
   const [filterRace, setFilterRace] = useState("");
   const [filterCrafting, setFilterCrafting] = useState("");
   const [sortOrder, setSortOrder] = useState("asc");
+  //pagination states
+  const [currentPage, setCurrentPage] = useState(1);
 
   //loading state
   const [loading, setLoading] = useState(false);
@@ -111,6 +114,36 @@ export default function CharacterList() {
     (char) => !favorite.includes(char.name)
   );
 
+  //set items per page for pagination
+  const itemsPerPageFavorites = 2;
+  const itemsPerPageNonFavorites = 10;
+
+  // Pagination helper
+  const paginate = (array, page, perPage) => {
+    const start = (page - 1) * perPage;
+    return array.slice(start, start + perPage);
+  };
+
+  // Paginate favorites and non-favorites
+  const paginatedFavorites = paginate(
+    favoriteCharacters,
+    currentPage,
+    itemsPerPageFavorites
+  );
+  const paginatedNonFavorites = paginate(
+    nonFavoriteCharacters,
+    currentPage,
+    itemsPerPageNonFavorites
+  );
+
+  // Calculate total pages for pagination buttons
+  const totalPagesFavorites = Math.ceil(
+    favoriteCharacters.length / itemsPerPageFavorites
+  );
+  const totalPagesNonFavorites = Math.ceil(
+    nonFavoriteCharacters.length / itemsPerPageNonFavorites
+  );
+
   return (
     <div className="p-4 mx-auto max-w-5xl min-h-screen">
       <h1 className="text-2xl text-center font-bold mb-4">Characters</h1>
@@ -132,7 +165,7 @@ export default function CharacterList() {
           Favorite Characters
         </h2>
         <div className="flex flex-wrap gap-6">
-          {favoriteCharacters.map((char) => (
+          {paginatedFavorites.map((char) => (
             <div className="w-full sm:w-[calc(50%-12px)]">
               <CharacterCard
                 key={char.name}
@@ -144,6 +177,11 @@ export default function CharacterList() {
             </div>
           ))}
         </div>
+        <PaginationControls
+          currentPage={currentPage}
+          totalPages={totalPagesFavorites}
+          onPageChange={setCurrentPage}
+        />
       </div>
       {/* all other characters list */}
       <div>
@@ -151,7 +189,7 @@ export default function CharacterList() {
           All Other Characters
         </h2>
         <div className="flex flex-wrap gap-6">
-          {nonFavoriteCharacters.map((char) => (
+          {paginatedNonFavorites.map((char) => (
             <div className="w-full sm:w-[calc(50%-12px)]">
               <CharacterCard
                 key={char.name}
@@ -163,6 +201,11 @@ export default function CharacterList() {
             </div>
           ))}
         </div>
+        <PaginationControls
+          currentPage={currentPage}
+          totalPages={totalPagesNonFavorites}
+          onPageChange={setCurrentPage}
+        />
       </div>
     </div>
   );
