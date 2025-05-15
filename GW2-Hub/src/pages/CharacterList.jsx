@@ -23,8 +23,8 @@ export default function CharacterList() {
   const [filterCrafting, setFilterCrafting] = useState("");
   const [sortOrder, setSortOrder] = useState("asc");
   //pagination states
-  const [currentPage, setCurrentPage] = useState(1);
-
+  const [favoritePage, setFavoritePage] = useState(1);
+  const [nonFavoritePage, setNonFavoritePage] = useState(1);
   //loading state
   const [loading, setLoading] = useState(false);
 
@@ -127,12 +127,12 @@ export default function CharacterList() {
   // Paginate favorites and non-favorites
   const paginatedFavorites = paginate(
     favoriteCharacters,
-    currentPage,
+    favoritePage,
     itemsPerPageFavorites
   );
   const paginatedNonFavorites = paginate(
     nonFavoriteCharacters,
-    currentPage,
+    nonFavoritePage,
     itemsPerPageNonFavorites
   );
 
@@ -178,9 +178,9 @@ export default function CharacterList() {
           ))}
         </div>
         <PaginationControls
-          currentPage={currentPage}
+          currentPage={favoritePage}
           totalPages={totalPagesFavorites}
-          onPageChange={setCurrentPage}
+          onPageChange={setFavoritePage}
         />
       </div>
       {/* all other characters list */}
@@ -202,9 +202,9 @@ export default function CharacterList() {
           ))}
         </div>
         <PaginationControls
-          currentPage={currentPage}
+          currentPage={nonFavoritePage}
           totalPages={totalPagesNonFavorites}
-          onPageChange={setCurrentPage}
+          onPageChange={setNonFavoritePage}
         />
       </div>
     </div>
