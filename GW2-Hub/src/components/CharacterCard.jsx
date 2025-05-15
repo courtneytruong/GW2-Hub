@@ -1,9 +1,9 @@
 import { useState } from "react";
-
 import { MdExpandMore } from "react-icons/md";
 import { MdExpandLess } from "react-icons/md";
 import { MdFavoriteBorder } from "react-icons/md";
 import { MdFavorite } from "react-icons/md";
+import { calculateAgeFromDate, formatAge } from "../utils/calculateAgeFromDate";
 
 export default function CharacterCard({ char, favorite, toggleFavorite }) {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -13,6 +13,10 @@ export default function CharacterCard({ char, favorite, toggleFavorite }) {
 
   //sets as favorite
   const isFavorite = favorite.includes(char.name);
+
+  //convert age from creation date
+  const ageObj = calculateAgeFromDate(char.created);
+  const readableAge = formatAge(ageObj);
 
   return (
     <div className="bg-gradient-to-t from-black to-red-800 p-4 rounded shadow text-neutral-300">
@@ -65,7 +69,7 @@ export default function CharacterCard({ char, favorite, toggleFavorite }) {
           <p>Profession: {char.profession}</p>
           <p>Level: {char.level}</p>
           <p>Gender: {char.gender}</p>
-          <p>Age: {char.age || "Unknown"}</p>
+          <p>Age: {readableAge || "Unknown"}</p>
           <p>Deaths: {char.deaths}</p>
           {char.crafting?.length > 0 ? (
             <div>
