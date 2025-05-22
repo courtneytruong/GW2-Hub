@@ -5,6 +5,7 @@ import {
   fetchWizardVaultSpecial,
 } from "../utils/api";
 import WizardVaultCard from "../components/WizardVaultCard";
+import WizardVaultFilter from "../components/WizardVaultFilter";
 
 export default function WizardVault() {
   //state to set wizard vault dailies, weeklies, special objectives as an array
@@ -14,6 +15,7 @@ export default function WizardVault() {
 
   //set api key, pull api key from local storage
   const [apiKey, setApiKey] = useState(localStorage.getItem("gw2_api_key"));
+  const [selectedCategory, setSelectedCategory] = useState("daily");
 
   //fetch wizardVaultDailies
   useEffect(() => {
@@ -78,36 +80,26 @@ export default function WizardVault() {
   //if no api key show component to set api key
   if (!apiKey) return <ApiKeyInput onSubmit={setApiKey} />;
 
+  const getFilteredObjectives = () => {
+    if (selectedCategory === "daily") return wizardVaultDaily;
+    if (selectedCategory === "weekly") return wizardVaultWeekly;
+    if (selectedCategory === "special") return wizardVaultSpecial;
+    return [];
+  };
+
   return (
     <div className="p-4 mx-auto max-w-5xl min-h-screen">
       <h1 className="text-2xl text-center font-bold mb-4">Wizard Vault</h1>
-      <h2 className="text-neutral-300 text-lg font-semibold border-b-2 border-neutral-300 mb-4">
-        Daily Objectives
+      <WizardVaultFilter
+        selected={selectedCategory}
+        onSelect={setSelectedCategory}
+      />
+      <h2 className="text-neutral-300 text-lg font-semibold border-b-2 border-neutral-300 mb-4 capitalize">
+        {selectedCategory} Objectives
       </h2>
       <div>
-        {wizardVaultDaily.map((dailyWizardObjectives) => (
-          <WizardVaultCard
-            key={dailyWizardObjectives.id}
-            wizardObjectives={dailyWizardObjectives}
-          />
-        ))}
-        <h2 className="text-neutral-300 text-lg font-semibold border-b-2 border-neutral-300 mb-4">
-          Weekly Objectives
-        </h2>
-        {wizardVaultWeekly.map((weeklyWizardObjectives) => (
-          <WizardVaultCard
-            key={weeklyWizardObjectives.id}
-            wizardObjectives={weeklyWizardObjectives}
-          />
-        ))}
-        <h2 className="text-neutral-300 text-lg font-semibold border-b-2 border-neutral-300 mb-4">
-          Special Objectives
-        </h2>
-        {wizardVaultSpecial.map((specialWizardObjectives) => (
-          <WizardVaultCard
-            key={specialWizardObjectives.id}
-            wizardObjectives={specialWizardObjectives}
-          />
+        {getFilteredObjectives().map((objective) => (
+          <WizardVaultCard key={objective.id} wizardObjectives={objective} />
         ))}
       </div>
     </div>
