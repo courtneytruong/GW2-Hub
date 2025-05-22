@@ -46,7 +46,7 @@ const Navbar = () => {
               Characters
             </a>
             <a
-              href="#"
+              href="wizardvault"
               className="text-black hover:text-neutral-600 transition-colors"
             >
               Wizard Vault
