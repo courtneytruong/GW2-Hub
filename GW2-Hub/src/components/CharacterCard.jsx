@@ -4,7 +4,6 @@ import { MdExpandLess } from "react-icons/md";
 import { MdFavoriteBorder } from "react-icons/md";
 import { MdFavorite } from "react-icons/md";
 import { calculateAgeFromDate, formatAge } from "../utils/calculateAgeFromDate";
-import Navbar from "./Navbar";
 
 export default function CharacterCard({ char, favorite, toggleFavorite }) {
   const [isExpanded, setIsExpanded] = useState(false);

@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import CharacterList from "./pages/CharacterList";
 import Layout from "./components/Layout";
+import WizardVault from "./pages/WizardVault";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
           <Route index element={<Home />} />
           <Route path="characters" element={<CharacterList />} />
           {/* future: <Route path="/character/:name" element={<CharacterDetail />} /> */}
+          <Route path="wizardvault" element={<WizardVault />} />
         </Route>
       </Routes>
     </Router>
