@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen flex items-center justify-center text-gray-800 p-4">
+    <div className="flex justify-center text-gray-800 p-4">
       <div className="text-center bg-gradient-to-t from-black to-red-800 p-8 rounded-2xl shadow-2xl max-w-lg w-full">
         <h1 className="text-4xl text-white font-extrabold mb-4">
           Track. Achieve. Conquer.
