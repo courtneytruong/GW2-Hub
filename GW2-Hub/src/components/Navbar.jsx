@@ -20,10 +20,10 @@ const Navbar = () => {
               Wizard Vault
             </a>
             <a
-              href="#"
+              href="strikes"
               className="text-white hover:text-neutral-300 transition-colors"
             >
-              Weeklies
+              Strikes
             </a>
           </div>
         </div>
