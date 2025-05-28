@@ -14,19 +14,19 @@ const Navbar = () => {
             <div className="hidden md:flex space-x-6">
               <a
                 href="/"
-                className="text-neutral-300 hover:text-neutral-400 transition-colors"
+                className="text-white hover:text-neutral-400 transition-colors"
               >
                 Home
               </a>
               <a
                 href="#"
-                className="text-neutral-300 hover:text-neutral-400 transition-colors"
+                className="text-white hover:text-neutral-400 transition-colors"
               >
                 About
               </a>
               <a
                 href="#"
-                className="text-neutral-300 hover:text-neutral-400 transition-colors"
+                className="text-white hover:text-neutral-400 transition-colors"
               >
                 Contact
               </a>
@@ -36,7 +36,7 @@ const Navbar = () => {
       </nav>
 
       {/* Secondary Bar */}
-      <div className="bg-neutral-300">
+      <div className="bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-center items-center h-10 space-x-4 text-sm">
             <a
